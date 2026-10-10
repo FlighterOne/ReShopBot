@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReShop — Магазин iPhone и аксессуаров</title>
+  <meta name="description" content="ReShop — честный магазин по выкупу, продаже и перепродаже iPhone и аксессуаров. Только проверенные устройства и честные предложения.">
+  <link rel="icon" href="logo.png" type="image/png">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #141414;
+      --bg-card-hover: #1a1a1a;
+      --text: #ffffff;
+      --text-muted: #a0a0a0;
+      --accent: #ffffff;
+      --border: #222222;
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .logo span {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .btn-primary:hover {
+      background: #e5e5e5;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-card);
+      border-color: #333;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 3.75rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      color: var(--text-muted);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Services */
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: all 0.2s;
+    }
+
+    .card:hover {
+      background: var(--bg-card-hover);
+      border-color: #333;
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      background: #1f1f1f;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #888;
+      letter-spacing: 0.05em;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* About */
+    .about {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .about h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .about p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .about ul {
+      list-style: none;
+    }
+
+    .about li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .about li::before {
+      content: '✓';
+      color: #22c55e;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .stat {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 80px 0;
+    }
+
+    .cta-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 64px 40px;
+    }
+
+    .cta h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 60px 0 50px;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+        padding: 32px;
+        gap: 32px;
+      }
+
+      .cta-box {
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <a href="/" class="logo">
+        <img src="logo.png" alt="ReShop">
+        <span>ReShop</span>
+      </a>
+      <nav>
+        <a href="#services">Услуги</a>
+        <a href="#about">О нас</a>
+        <a href="https://t.me/ReShopIphone" target="_blank">Каталог</a>
+        <a href="https://t.me/ReShopManager" target="_blank" class="btn btn-primary" style="padding: 10px 20px;">Написать</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Работаем каждый день</div>
+      <h1>Честный магазин<br><span>iPhone и аксессуаров</span></h1>
+      <p>
+        Выкуп, продажа и перепродажа проверенных устройств. 
+        Только честные предложения от проверенных продавцов.
+      </p>
+      <div class="hero-actions">
+        <a href="https://t.me/ReShopIphone" target="_blank" class="btn btn-primary">Смотреть каталог</a>
+        <a href="https://t.me/ReShopManager" target="_blank" class="btn btn-outline">Оценить устройство</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Услуги</div>
+        <h2>Что мы предлагаем</h2>
+        <p>Полный цикл работы с техникой Apple — от выкупа до продажи</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">01</div>
+          <h3>Продажа iPhone</h3>
+          <p>Большой выбор новых и б/у устройств в отличном состоянии. Все телефоны проходят проверку.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">02</div>
+          <h3>Выкуп техники</h3>
+          <p>Оценим ваш iPhone по честной цене. Быстрый расчёт и моментальная оплата.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">03</div>
+          <h3>Trade-in</h3>
+          <p>Обменяйте старое устройство на новое с доплатой. Удобно и выгодно.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">04</div>
+          <h3>Аксессуары</h3>
+          <p>Оригинальные и качественные чехлы, стекла, зарядки и другие аксессуары для iPhone.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">05</div>
+          <h3>Проверка устройств</h3>
+          <p>Тщательная диагностика перед продажей. Гарантия работоспособности.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">06</div>
+          <h3>Быстрая сделка</h3>
+          <p>Минимум бюрократии. Пишете — получаете ответ и оформляете сделку в Telegram.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about">
+        <div>
+          <h2>О проекте ReShop</h2>
+          <p>
+            ReShop — это магазин по перепродаже, выкупу и продаже iPhone и аксессуаров. 
+            Мы работаем только с проверенными устройствами и честными предложениями.
+          </p>
+          <ul>
+            <li>Только проверенные продавцы и устройства</li>
+            <li>Честные цены без скрытых комиссий</li>
+            <li>Быстрая коммуникация в Telegram</li>
+            <li>Гарантия на все устройства</li>
+          </ul>
+        </div>
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-value">1977+</div>
+            <div class="stat-label">подписчиков в канале</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">честные сделки</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">связь в Telegram</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">✓</div>
+            <div class="stat-label">проверенные устройства</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Готовы купить или продать?</h2>
+        <p>Напишите менеджеру — ответим быстро и поможем с выбором или оценкой</p>
+        <div class="hero-actions">
+          <a href="https://t.me/ReShopManager" target="_blank" class="btn btn-primary">Написать менеджеру</a>
+          <a href="https://t.me/ReShopIphone" target="_blank" class="btn btn-outline">Открыть канал</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="https://t.me/ReShopIphone" target="_blank">Telegram-канал</a>
+        <a href="https://t.me/ReShopManager" target="_blank">Менеджер</a>
+        <a href="#services">Услуги</a>
+        <a href="#about">О нас</a>
+      </div>
+      <div class="copyright">© 2026 ReShop Iphone's</div>
+    </div>
+  </footer>
+
+</body>
+</html>
